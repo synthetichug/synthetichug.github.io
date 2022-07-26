@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<link rel="stylesheet" type="text/css" href="./CSS/reset.css">
+	<link rel="stylesheet" type="text/css" href="./CSS/ch3mical.css">
+	<script type="text/javascript" src="./JS/jquery-1.4.2.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./JS/jquery-ui.min.js"></script> 
+	<script type="text/javascript" src="./JS/ch3mical.js" charset="utf-8"></script>
+	<script type="text/javascript" src="./JS/questions.js"></script>
+
+	<title>Ch3mical</title>
+</head>
+
+<body>
+	<div id="container">
+		<h1>Ch3mical</h1>
+		<ul id="centerwell">
+			<li id="behance"><h3><a href="" target="_blank">Behance</a></h3>
+				<p>Take a look at my portfolio, let me know whatcha think. </p></li>
+			
+			<li id="flicker"><h3><a href="" target="_blank">Flicker</a></h3>
+				<p>See what I've been up to with my camera.</p></li>
+			
+			<li id="linkedin"><h3><a href="" target="_blank">LinkedIn</a></h3>
+				<p>Hit me up, I'm always looking to make new connections.</p></li>
+			
+			<li id="facebook"><h3><a href="" target="">Facebook</a></h3>
+				<p>I have to admit I check it at least once a day.</p></li>
+			
+			<li id="twitter"><h3><a href="" target="_blank">Twitter</a></h3>
+				<p>I'm more of a voyeur here, but when I do say something ...</p></li>
+			
+			<li id="resume"><h3><a href="" target="">Resume</a></h3>
+				<p>Download in PDF format. References given upon request.</p></li>
+			
+			<li id="email"><h3><a href="">Email</a></h3>
+				<p>pk@ch3mical.com</p></li>
+			
+			<li id="contact"><h3><a href="" target="">Contact</a></h3>
+				<p>Phone: 248 760 6301<br>
+				Location: Detroit, MI</p></li>
+		</ul>
+		
+		<div class="quiznav">
+			<a id="previous">Previous Question</a>
+			<a id="next">Next Question</a>
+			<a id="submit">Submit Quiz</a>
+			<b class="results" id="results"></b>
+		</div>
+
+		<div class="quiz-container">
+			<div id="quiz"></div>
+		</div>
+	
+		<!--<div id="content">
+			<div id="primary_content">
+				<h2 class="morph">Paul Kelley</h2>
+				<span class="title current">Creative Director / Art Director / Designer</span>
+				
+				<h3 class="morph">Biography</h3>
+					<p>Paul is currently an Associate Creative Director with MRM Worldwide where he brings his 13-plus years of digital and interactive experience to the table. An experienced team leader and designer, Paul's strengths lay in concepting, branding, strategy, execution and mentoring. 
+					<br><br>
+					His curiosity and enthusiasm for the medium encourages him to push the boundaries and discover new possibilities and technologies. Paul's attention to detail, perseverance and dedication is what allows him stand out from the crowd.</p>
+				
+				<h3 class="morph">Education</h3>
+					<span class="location">University of Michigan - Ann Arbor, MI</span>
+					<span class="title">Bachelor of Fine Arts, Graphic Design</span>
+					
+				<h3 class="morph">Experience</h3>
+					<ol id="positions">
+						<li><h5>MRM World Wide</h5>
+							<em class="title">Associate Creative Director</em>
+							<span class="date">2010 - </span>
+							<p></p></li>
+												
+						<li><h5>Wunderman Team Detroit</h5>
+							<em class="title">VP, Associate Creative Director</em>
+							<span class="date">2005 - 2010</span>
+							<p>My time at Team Detroit gave me the opportunity to excel and succeed in many different areas such as art direction, design, execution and team leadership rolls.</p></li>
+						
+						<li><h5>Avenue A / Razorfish, Chicago, IL</h5>
+							<em class="title">Senior Art Director</em>         	     <span class="date">2003 - 2005</span>
+							<p>At Razorfish I earned my chops as an Art Director concepting and executing interactive web site designs and Flash animations as well collaborative work, company research, client meetings, and creative presentations.</p></li>
+								
+						<li><h5>Three Mountain Group, Chicago, IL</h5>
+							<em class="title">Senior Art Director</em><span class="date">2001 - 2003</span>
+							<p>Responsibilities: Leading creative responsibilities for national accounts, concepting and creating interactive web site designs, animations and front end HTML.</p></li>
+						
+						<li><h5>Rare Medium Inc., Detroit, MI</h5>
+							<em class="title">Senior Designer</em>         	     
+							<span class="date">1999 - 2001</span>
+							<p>Responsibilities: concepting and creating interactive web site designs, animations and front end HTML.</p></li>
+					</ol>
+				</div>
+
+			<div id="secondary_content">
+				<h5 class="morph_alt">Skill set</h5>
+				<ul>
+					<li><h6>Creative Direction</h6>
+						<p>With my experience I understand the struggles and intentions of those I manage as well as those I am encouraging to grow.</p></li>
+					
+					<li><h6>Design</h6>
+						<p>This is what gets me out of bed in the morning. Being presented with a problem and finding a solution to that problem as well as everything that happens in between.</p></li>
+					
+					<li><h6>Expertise</h6>
+						<p>Concepting, Branding, Strategy, Execution, Mentoring, Typography, Color Theory, Design Layout, HTML &amp; CSS, Print &amp; Web Production, Marketing &amp; Advertising, Project Estimates, Budget Management and Web 2.0</p></li>
+					
+					<li><h6>Photography</h6>
+						<p>This began as an outlet for me many years ago and has become a large part of who I am. I can usually be found taking photos, looking at photos or reading about photos in my spare time.</p></li>
+				</ul>
+			</div>
+		</div>-->	
+	</div> 
+</body>
+</html>
