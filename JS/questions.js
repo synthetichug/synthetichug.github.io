@@ -46,7 +46,7 @@ d: "services.exe"
 correctAnswer: "b",
 explaination: "Depending on svchost instance svchost User Account will typically be Local System, Network Service, or Local Service accounts. Instances running under any other account should be investigated. Winlogon, services and wininit run under the Local System account."
 },
-*/
+
 {
 question: "Which of the following is a typical behavior of an archive utility when decompressing files on a NTFS volume?",
 answers: {
@@ -191,7 +191,7 @@ d: ""
 correctAnswer: "a",
 explaination: ""
 },
-*/
+
 {
 question: "On a target system, RAM is collected an then PsList is run. Which of the following would explain why the list of processes reported by PsList does not match that extracted later form the memory image?",
 answers: {
@@ -324,5 +324,5 @@ d: "The timestamps were manually altered using an anti-forensics tool"
 correctAnswer: "d",
 explaination: "This is an example of a timestamp anomaly. In this case, the file modification date and time listed in the metadata actually went back by 11 days. This is not explainable by natural computer behavior, and indicates that, between the first time the command was run and the second time, some form of timestamp alteration (like timestomp) occurred. Copying the file or touching it (which exiftool does not do) would not change all the timestamps. It is highly unlikely the MFT sequence number would have changed. "
 },
-
+*/
 ];
