@@ -59,57 +59,35 @@ body {
   letter-spacing: 0pt;
 }
 
-#behance h3 {
-  background: url(/website/Media/Buttons/behance_btn.gif) no-repeat;
+#first h3 {
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
-#behance p {
-  background: url(/website/Media/Buttons/behance_over_bg.gif) no-repeat;
+#rest h3 {
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
-#flicker h3 {
-  background: url(/website/Media/Buttons/flickr_btn.gif) no-repeat;
-}
-#flicker p {
-  background: url(/website/Media/Buttons/flickr_over_bg.gif) no-repeat;
-}
+/*
 #linkedin h3 {
-  background: url(/website/Media/Buttons/linkedin_btn.gif) no-repeat;
-}
-#linkedin p {
-  background: url(/website/Media/Buttons/linkedin_over_bg.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
 #facebook h3 {
-  background: url(/website/Media/Buttons/facebook_btn.gif) no-repeat;
-}
-#facebook p {
-  background: url(/website/Media/Buttons/facebook_over_bg.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
 #twitter h3 {
-  background: url(/website/Media/Buttons/twitter_btn.gif) no-repeat;
-}
-#twitter p {
-  background: url(/website/Media/Buttons/twitter_over_bg.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
 #resume h3 {
-  background: url(/website/Media/Buttons/resume_btn.gif) no-repeat;
-}
-#resume p {
-  background: url(/website/Media/Buttons/resume_over_bg.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
 #email h3 {
-  background: url(/website/Media/Buttons/email_btn.gif) no-repeat;
-}
-#email p {
-  background: url(/website/Media/Buttons/email_over_bg.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
 #contact h3 {
-  background: url(/website/Media/Buttons/contact_btn.gif) no-repeat;
+  background: url(/website/Media/Buttons/button.gif) no-repeat;
 }
-#contact p {
-  background: url(/website/Media/Buttons/contact_over_bg.gif) no-repeat;
-}
+*/
 
-#behance {
-  margin-left: 206px;
+#first {
+  margin-left: 205px;
 }
 
 #content {
@@ -152,7 +130,7 @@ body {
 #primary_content h1,
 #primary_content h2,
 #primary_content h3 {
-  color: #9eaebe;
+  color: #00ae0a;
 }
 
 #primary_content h3 {

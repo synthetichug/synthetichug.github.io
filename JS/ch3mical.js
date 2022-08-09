@@ -81,8 +81,8 @@ if (!self.__WB_pmw) {
     $("#centerwell li").hover(
       function () {
         $("#content, h1").stop().animate({ opacity: ".2" });
-        $(".morph").stop().animate({ color: "#9EAEBE" }, 400);
-        $(".morph_alt").stop().animate({ color: "#9EAEBE" }, 400);
+        $(".morph").stop().animate({ color: "#00ae0a" }, 400);
+        $(".morph_alt").stop().animate({ color: "#00ae0a" }, 400);
 
         $(this)
           .stop()
@@ -105,8 +105,8 @@ if (!self.__WB_pmw) {
           );
       },
       function () {
-        $(".morph").stop().animate({ color: "#00aaf0" }, 400);
-        $(".morph_alt").stop().animate({ color: "#00aaf0" }, 400);
+        $(".morph").stop().animate({ color: "#00ae0a" }, 400);
+        $(".morph_alt").stop().animate({ color: "#00ae0a" }, 400);
         $("#content, h1").stop().animate({ opacity: "1" });
         $(this)
           .stop()
