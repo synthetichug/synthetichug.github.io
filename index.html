@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -9,8 +9,9 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Abel"
     />
-    <script src="./JS/weather,js" defer></script>
+    <script src="./JS/weather.js" defer></script>
     <script src="./JS/news.js" defer></script>
+    <script src="./JS/render.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -105,63 +106,21 @@
           </section>
 
           <section class="view view-job">
-            <h2 class="morph">dustin</h2>
-            <span class="title current">artificer</span>
-
+            <h2 class="morph" data-profile-name>dsa</h2>
+            <span class="title current" data-profile-title>asd</span>
             <h3 class="morph">biography</h3>
-            <p>
-              Cybersecurity professional with a background in detection
-              engineering, threat hunting, incident response, and digital
-              forensics. Experience spans enterprise cloud environments,
-              endpoint telemetry, network traffic analysis, and SIEM-based
-              investigations. Strong focus on behavioral detections, attacker
-              TTP analysis, and improving detection fidelity and response
-              workflows. Prior military cyber operations experience supporting
-              mission-critical environments. Comfortable operating in high-tempo
-              SOC, MDR, and investigative roles.
-            </p>
+            <p class="bio" data-profile-bio>…</p>
 
             <h3 class="morph">experience</h3>
 
-            <ol class="positions">
+            <ol class="positions" data-positions>
               <li>
-                <h5 class="pos-title">Detection Engineer</h5>
-                <span class="date">July 2025 – Current</span>
-
+                <span class="date">—</span>
+                <h5 class="pos-title">loading…</h5>
                 <div class="pos-meta">
-                  <span class="pos-company">Workday</span>
+                  <span class="pos-company"></span>
                 </div>
-
-                <ul class="exp-bullets">
-                  <li>
-                    Design, build, tune, and maintain security detections across
-                    AWS…
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                <h5>Software Engineering Services</h5>
-                <em class="title">Threat Hunter</em>
-                <span class="date">August 2023 - July 2025</span>
-                <ul class="exp-bullets">
-                  <li>
-                    Monitored and analyzed enterprise-scale network traffic
-                    using packet capture and network forensic tools
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                <h5>United States Air Force</h5>
-                <em class="title">Threat Hunter</em>
-                <span class="date">October 2021 - August 2023</span>
-                <ul class="exp-bullets">
-                  <li>
-                    Conducted cyber threat hunting, incident analysis, and
-                    malware behavior analysis in mission-critical environments
-                  </li>
-                </ul>
+                <ul class="exp-bullets"></ul>
               </li>
             </ol>
           </section>
@@ -234,49 +193,9 @@
 
           <section class="sideview side-job">
             <h5 class="morph_alt">Skill set</h5>
-            <ul class="skills">
-              <li>
-                <h6>Detection Engineering</h6>
-                <p>
-                  Behavioral detections; Alert tuning and false positive
-                  reduction; Detection lifecycle management; MITRE ATT&amp;CK
-                  mapping
-                </p>
-              </li>
-
-              <li>
-                <h6>Incident Response &amp; Threat Hunting</h6>
-                <p>
-                  Alert triage and escalation; Timeline reconstruction; Root
-                  cause analysis; Forensic artifact analysis; Cloud and endpoint
-                  investigations
-                </p>
-              </li>
-
-              <li>
-                <h6>Telemetry &amp; Platforms</h6>
-                <p>
-                  AWS CloudTrail; Okta logging; EDR telemetry; Network telemetry
-                  and PCAP; SIEM platforms (including Splunk)
-                </p>
-              </li>
-
-              <li>
-                <h6>Scripting &amp; Automation</h6>
-                <p>
-                  Python (automation, data processing); PowerShell
-                  (investigation and response support)
-                </p>
-              </li>
-
-              <li>
-                <h6>Operating Systems &amp; Environments</h6>
-                <p>
-                  Windows (endpoint and server); Linux; macOS (general
-                  familiarity); Cloud-native environments (AWS)
-                </p>
-              </li>
-            </ul>
+            <div class="skills" data-skills>
+              <!-- existing static markup can remain as fallback -->
+            </div>
           </section>
         </div>
       </aside>
