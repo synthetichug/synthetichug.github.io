@@ -1,0 +1,13 @@
+{
+  "positions": [
+    {
+      "role": "Detection Engineer",
+      "company": "yadda yadda",
+      "start": "2025-07",
+      "end": null,
+      "bullets": [
+        "Design and maintain security detections across cloud environments."
+      ]
+    }
+  ]
+}

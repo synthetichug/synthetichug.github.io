@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-02-02",
+  "locations": [
+    {
+      "label": "denver, co",
+      "lat": 39.7392,
+      "lon": -104.9903
+    },
+    {
+      "label": "houston, tx",
+      "lat": 29.7604,
+      "lon": -95.3698
+    },
+    {
+      "label": "detroit, mi",
+      "lat": 42.3314,
+      "lon": -83.0458
+    },
+    {
+      "label": "palmer, ak",
+      "lat": 61.5994,
+      "lon": -149.1146
+    }
+  ]
+}
