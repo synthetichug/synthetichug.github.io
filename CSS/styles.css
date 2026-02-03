@@ -90,8 +90,10 @@ body {
   letter-spacing: 1px;
   line-height: 1;
 
-  transition: flex-grow 1000ms cubic-bezier(0.2, 0.8, 0.2, 1),
-    background-color 1000ms ease, color 1000ms ease;
+  transition:
+    flex-grow 1000ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 1000ms ease,
+    color 1000ms ease;
 }
 
 .cw-btn:hover,
@@ -397,6 +399,70 @@ body:has(#job:target) .side-job {
 .secondary_content .client_names li {
   font-size: 11px;
   letter-spacing: 0.6px;
+}
+
+.secondary_content .skills h6 {
+  font-size: 13px;
+  line-height: 23px;
+}
+
+/* ---------------- skills box + cert strip ---------------- */
+
+/* This is the "skills rectangle" inside the secondary panel */
+.secondary_content .skills[data-skillsbox] {
+  background: #181b1f; /* matches site bg, reads as inset */
+  border: 1px solid #2a2f35; /* same family as brand-bar */
+  padding: 12px 12px 10px 12px;
+  margin-top: 8px;
+
+  /* two-row layout: content + bottom strip */
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  /* ensures there is "space" so certs can sit at bottom */
+  min-height: 240px; /* tune visually */
+}
+
+/* top area: skills text */
+.secondary_content .skills-body[data-skills] {
+  align-content: start;
+}
+
+/* bottom area: icon strip */
+.secondary_content .skills-certs[data-certs] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
+
+  padding-top: 10px;
+  margin-top: 10px;
+
+  /* subtle divider */
+  border-top: 1px solid rgba(101, 115, 129, 0.18);
+}
+
+/* icon links */
+.secondary_content .skills-certs[data-certs] a.cert {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/* icons: small + consistent */
+.secondary_content .skills-certs[data-certs] img.cert-icon {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+
+/* restrained hover */
+.secondary_content .skills-certs[data-certs] a.cert:hover,
+.secondary_content .skills-certs[data-certs] a.cert:focus-visible {
+  opacity: 1;
+  outline: none;
 }
 
 /* ---------------- weather ---------------- */
