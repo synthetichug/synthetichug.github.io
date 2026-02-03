@@ -61,66 +61,6 @@
       "url": "https://www.credly.com/earner/earned/badge/fe63dae0-1b39-48a3-84b5-acac5f7b2181",
       "icon": "./Images/net+.png",
       "short": "Network+"
-    },
-    {
-      "id": "3496e039-fa8e-4c79-9419-637a0d0e2cb1",
-      "title": "CompTIA IT Operations Specialist (CIOS) Stackable",
-      "issuer": "CompTIA",
-      "issued": "2024-08-18",
-      "expires": "2028-10-20",
-      "url": "https://www.credly.com/earner/earned/badge/3496e039-fa8e-4c79-9419-637a0d0e2cb1",
-      "icon": "./Images/cios.png",
-      "short": "CIOS"
-    },
-    {
-      "id": "62ebb604-12b5-4a45-b284-6ada473728d6",
-      "title": "CompTIA Secure Infrastructure Specialist (CSIS) Stackable",
-      "issuer": "CompTIA",
-      "issued": "2024-08-18",
-      "expires": "2028-10-20",
-      "url": "https://www.credly.com/earner/earned/badge/62ebb604-12b5-4a45-b284-6ada473728d6",
-      "icon": "./Images/csis.png",
-      "short": "CSIS"
-    },
-    {
-      "id": "09f365c4-123d-4309-b85a-7b941a3c898e",
-      "title": "CompTIA Network Vulnerability Assessment Professional (CNVP) Stackable",
-      "issuer": "CompTIA",
-      "issued": "2025-10-20",
-      "expires": "2028-10-20",
-      "url": "https://www.credly.com/earner/earned/badge/09f365c4-123d-4309-b85a-7b941a3c898e",
-      "icon": "./Images/cnvp.png",
-      "short": "CNVP"
-    },
-    {
-      "id": "eee026da-485a-48fb-899e-1e653675f08a",
-      "title": "CompTIA Project+",
-      "issuer": "CompTIA",
-      "issued": "2025-09-29",
-      "expires": null,
-      "url": "https://www.credly.com/earner/earned/badge/eee026da-485a-48fb-899e-1e653675f08a",
-      "icon": "./Images/project+.png",
-      "short": "Project+"
-    },
-    {
-      "id": "58bd2c60-b33b-4b34-b055-9cf46379afae",
-      "title": "CompTIA A+ ce",
-      "issuer": "CompTIA",
-      "issued": "2024-07-02",
-      "expires": "2028-10-20",
-      "url": "https://www.credly.com/earner/earned/badge/58bd2c60-b33b-4b34-b055-9cf46379afae",
-      "icon": "./Images/a+.png",
-      "short": "A+"
-    },
-    {
-      "id": "a44a7298-2a06-4bfb-bf04-c9cb6b12491d",
-      "title": "CompTIA IT Fundamentals+ (ITF+)",
-      "issuer": "CompTIA",
-      "issued": "2021-01-13",
-      "expires": null,
-      "url": "https://www.credly.com/earner/earned/badge/a44a7298-2a06-4bfb-bf04-c9cb6b12491d",
-      "icon": "./Images/itf+.png",
-      "short": "ITF+"
     }
   ]
 }
