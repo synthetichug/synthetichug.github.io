@@ -408,20 +408,18 @@ body:has(#job:target) .side-job {
 
 /* ---------------- skills box + cert strip ---------------- */
 
-/* This is the "skills rectangle" inside the secondary panel */
+/* Skills container: layout only, no visual box */
 .secondary_content .skills[data-skillsbox] {
-  background: #181b1f; /* matches site bg, reads as inset */
-  border: 1px solid #2a2f35; /* same family as brand-bar */
-  padding: 12px 12px 10px 12px;
-  margin-top: 8px;
-
-  /* two-row layout: content + bottom strip */
   display: grid;
   grid-template-rows: 1fr auto;
 
-  /* ensures there is "space" so certs can sit at bottom */
-  min-height: 240px; /* tune visually */
+  /* spacing only */
+  padding-top: 4px;
+
+  /* gives room so certs sit at bottom of the panel section */
+  min-height: 240px;
 }
+
 
 /* top area: skills text */
 .secondary_content .skills-body[data-skills] {
