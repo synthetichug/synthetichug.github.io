@@ -120,6 +120,13 @@ body {
   display: none;
 }
 
+.sideview.side-job {
+  display: flex;          /* you already toggle display:block; this overrides when visible */
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
 .view-home {
   display: block;
 }
@@ -333,6 +340,7 @@ body:has(#job:target) .side-job {
 .secondary {
   grid-area: secondary;
   background: #262b30;
+  display: flex;
 }
 
 .secondary_content {
@@ -342,6 +350,9 @@ body:has(#job:target) .side-job {
   padding-bottom: 40px;
   color: #9eaebe;
   font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .secondary_content h5 {
@@ -408,55 +419,52 @@ body:has(#job:target) .side-job {
 
 /* ---------------- skills box + cert strip ---------------- */
 
-/* Skills container: layout only, no visual box */
+/* Skills container becomes a vertical column that can stretch */
 .secondary_content .skills[data-skillsbox] {
-  display: grid;
-  grid-template-rows: 1fr auto;
-
-  /* spacing only */
-  padding-top: 4px;
-
-  /* gives room so certs sit at bottom of the panel section */
-  min-height: 240px;
-}
-
-
-/* top area: skills text */
-.secondary_content .skills-body[data-skills] {
-  align-content: start;
-}
-
-/* bottom area: icon strip */
-.secondary_content .skills-certs[data-certs] {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  /* optional: keep your existing spacing */
+  padding-top: 4px;
+}
+
+/* Skills body stays at top */
+.secondary_content .skills-body[data-skills] {
+  flex: 0 0 auto;
+}
+
+/* Cert strip gets pushed to bottom */
+.secondary_content .skills-certs[data-certs] {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(101, 115, 129, 0.18);
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); /* tune this count */
   gap: 6px;
   align-items: center;
-  justify-content: flex-start;
 
-  padding-top: 10px;
-  margin-top: 10px;
-
-  /* subtle divider */
-  border-top: 1px solid rgba(101, 115, 129, 0.18);
+  /* Make it go full width of the panel padding */
+  width: 100%;
 }
 
-/* icon links */
+/* Each cert link fills one grid cell */
 .secondary_content .skills-certs[data-certs] a.cert {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  opacity: 0.85;
-}
-
-/* icons: small + consistent */
-.secondary_content .skills-certs[data-certs] img.cert-icon {
-  height: 26px;
-  width: auto;
   display: block;
-  opacity: 0.9;
 }
 
+/* Make the icon scale to the cell width */
+.secondary_content .skills-certs[data-certs] img.cert-icon {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  /* If your badge images are square/circular, lock the cell shape */
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
 /* restrained hover */
 .secondary_content .skills-certs[data-certs] a.cert:hover,
 .secondary_content .skills-certs[data-certs] a.cert:focus-visible {
