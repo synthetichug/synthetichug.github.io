@@ -175,45 +175,58 @@
   }
 
   // -------- Skills (sidebar) --------
-  function renderSkills(data) {
-    const root = document.querySelector("[data-skills]");
-    dbg("renderSkills root found:", !!root);
+function renderSkills(data) {
+  const root = document.querySelector("[data-skills]");
+  dbg("renderSkills root found:", !!root);
+  if (!root) return;
 
-    if (!root) {
-      dbg("renderSkills: no root; skipping");
-      return;
-    }
+  // Accept either:
+  // 1) { sections: [ {category, details: []} ] }
+  // 2) { skills:   [ {category, details: "" or []} ] }
+  const raw =
+    (data && Array.isArray(data.sections) && data.sections) ||
+    (data && Array.isArray(data.skills) && data.skills) ||
+    null;
 
-    const sections = data && Array.isArray(data.sections) ? data.sections : null;
+  dbg("renderSkills schema:", {
+    hasSections: !!(data && data.sections),
+    hasSkills: !!(data && data.skills),
+    chosenLen: raw ? raw.length : null,
+    dataKeys: data ? Object.keys(data) : null,
+  });
 
-    dbg("renderSkills schema:", {
-      hasSections: !!(data && data.sections),
-      sectionsIsArray: Array.isArray(data && data.sections),
-      sectionsLen: sections ? sections.length : null,
-      dataKeys: data ? Object.keys(data) : null,
-    });
-
-    if (!sections || sections.length === 0) {
-      dbg("renderSkills: missing/empty sections; leaving placeholder intact");
-      return; // keep placeholder/fallback
-    }
-
-    // Clear only when valid data is present
-    root.innerHTML = "";
-
-    for (const s of sections) {
-      const h = document.createElement("h6");
-      h.textContent = s.category || "—";
-      root.appendChild(h);
-
-      const p = document.createElement("p");
-      const details = Array.isArray(s.details) ? s.details : [];
-      p.textContent = details.join(" • ");
-      root.appendChild(p);
-    }
-
-    dbg("renderSkills rendered count:", sections.length);
+  if (!raw || raw.length === 0) {
+    dbg("renderSkills: missing/empty data; leaving placeholder intact");
+    return;
   }
+
+  // Clear only when valid data exists
+  root.innerHTML = "";
+
+  for (const s of raw) {
+    const category = s && s.category ? String(s.category) : "—";
+
+    // Normalize details to an array of strings
+    let details = [];
+    if (Array.isArray(s && s.details)) {
+      details = s.details.map((x) => String(x)).filter(Boolean);
+    } else if (typeof (s && s.details) === "string") {
+      details = [s.details];
+    } else if (s && s.details != null) {
+      details = [String(s.details)];
+    }
+
+    const h = document.createElement("h6");
+    h.textContent = category;
+    root.appendChild(h);
+
+    const p = document.createElement("p");
+    p.textContent = details.join(" • ");
+    root.appendChild(p);
+  }
+
+  dbg("renderSkills rendered count:", raw.length);
+}
 
   // -------- Boot --------
   function run() {
