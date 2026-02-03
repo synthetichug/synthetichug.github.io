@@ -1,6 +1,7 @@
 (() => {
   const URL_PROFILE = "./data/profile.json";
   const URL_EXPERIENCE = "./data/experience.json";
+  const URL_EDUCATION = "./data/education.json";
   const URL_SKILLS = "./data/skills.json";
   const URL_CERTS = "./data/certs.json";
 
@@ -192,6 +193,67 @@
 
     dbg("renderExperience rendered count:", sorted.length);
   }
+    
+  function renderEducation(data) {
+    const root =
+      document.querySelector("[data-education]") ||
+      document.querySelector(".view.view-job .positions.education");
+  
+    dbg("renderEducation root found:", !!root);
+    if (!root) return;
+  
+    const items = data && Array.isArray(data.education) ? data.education : null;
+  
+    dbg("renderEducation schema:", {
+      hasEducation: !!(data && data.education),
+      educationIsArray: Array.isArray(data && data.education),
+      educationLen: items ? items.length : null,
+      dataKeys: data ? Object.keys(data) : null,
+    });
+  
+    if (!items) throw new Error("education.json missing 'education' array");
+  
+    const sorted = items
+      .slice()
+      .sort((a, b) => sortableYM(b.start) - sortableYM(a.start));
+  
+    root.innerHTML = "";
+  
+    if (sorted.length === 0) {
+      root.innerHTML = `
+        <li>
+          <span class="date">—</span>
+          <h5 class="pos-title">no entries</h5>
+          <div class="pos-meta"><span class="pos-company"></span></div>
+          <ul class="exp-bullets"></ul>
+        </li>
+      `.trim();
+      return;
+    }
+  
+    for (const ed of sorted) {
+      const program = (ed.program || "—").trim();
+      const school = (ed.school || "").trim();
+      const dateText = fmtRange(ed.start, ed.end);
+      const bullets = Array.isArray(ed.bullets) ? ed.bullets : [];
+  
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <h5 class="pos-title">${escapeHtml(program)}</h5>
+        <span class="date">${escapeHtml(dateText)}</span>
+        <div class="pos-meta">
+          <span class="pos-company">${escapeHtml(school)}</span>
+        </div>
+        <ul class="exp-bullets">
+          ${bullets.map((b) => `<li>${escapeHtml(b)}</li>`).join("")}
+        </ul>
+      `.trim();
+  
+      root.appendChild(li);
+    }
+  
+    dbg("renderEducation rendered count:", sorted.length);
+  }
 
   // -------- Skills (sidebar) --------
   function renderSkills(data) {
@@ -331,6 +393,28 @@
             <li>
               <span class="date">—</span>
               <h5 class="pos-title">experience unavailable</h5>
+              <div class="pos-meta"><span class="pos-company"></span></div>
+              <ul class="exp-bullets"></ul>
+            </li>
+          `.trim();
+        }
+      });
+    
+    fetchJson(URL_EDUCATION)
+      .then((data) => {
+        dbg("education.json loaded ok");
+        renderEducation(data);
+      })
+      .catch((err) => {
+        console.error("[render] education render failed:", err);
+        const root =
+          document.querySelector("[data-education]") ||
+          document.querySelector(".view.view-job .positions.education");
+        if (root) {
+          root.innerHTML = `
+            <li>
+              <span class="date">—</span>
+              <h5 class="pos-title">education unavailable</h5>
               <div class="pos-meta"><span class="pos-company"></span></div>
               <ul class="exp-bullets"></ul>
             </li>
