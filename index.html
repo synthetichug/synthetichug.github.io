@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>vestiges</title>
     <link rel="stylesheet" href="./CSS/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Abel"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel" />
+
     <script src="./JS/weather.js" defer></script>
     <script src="./JS/news.js" defer></script>
     <script src="./JS/render.js" defer></script>
   </head>
+
   <body>
     <div class="container">
       <div class="header">
@@ -88,7 +87,7 @@
 
           <section class="view view-home">
             <h2 class="morph">home</h2>
-            <span class="title current">titel </span>
+            <span class="title current">titel</span>
 
             <h3 class="morph">news</h3>
 
@@ -106,8 +105,10 @@
           </section>
 
           <section class="view view-job">
+            <!-- Profile hooks (render.js should target these explicitly) -->
             <h2 class="morph" data-profile-name>dsa</h2>
             <span class="title current" data-profile-title>asd</span>
+
             <h3 class="morph">biography</h3>
             <p class="bio" data-profile-bio>…</p>
 
@@ -193,8 +194,12 @@
 
           <section class="sideview side-job">
             <h5 class="morph_alt">Skill set</h5>
+
+            <!-- Explicit render target for skills -->
             <div class="skills" data-skills>
-              <!-- existing static markup can remain as fallback -->
+              <!-- Optional stable placeholder (keeps sidebar from looking empty) -->
+              <h6>loading…</h6>
+              <p>—</p>
             </div>
           </section>
         </div>
