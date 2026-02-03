@@ -1,8 +1,15 @@
 (() => {
   // Keep URLs explicit
-  const URL_PROFILE = "../data/profile.json";
-  const URL_EXPERIENCE = "../data/experience.json";
-  const URL_SKILLS = "../data/skills.json";
+  const URL_PROFILE = "./data/profile.json";
+  const URL_EXPERIENCE = "./data/experience.json";
+  const URL_SKILLS = "./data/skills.json";
+
+  // Toggle this to silence logs once you're done debugging
+  const DEBUG = true;
+
+  function dbg(...args) {
+    if (DEBUG) console.log("[render]", ...args);
+  }
 
   function escapeHtml(s) {
     return String(s)
@@ -14,9 +21,23 @@
   }
 
   async function fetchJson(url) {
+    dbg("fetchJson start:", url, "protocol:", location.protocol);
     const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`${url} fetch failed (${res.status})`);
-    return res.json();
+    dbg("fetchJson response:", url, "status:", res.status, "ok:", res.ok);
+
+    if (!res.ok) {
+      // Try to capture response text (helps when GitHub serves HTML for 404)
+      let body = "";
+      try {
+        body = await res.text();
+      } catch (_) {}
+      dbg("fetchJson non-ok body snippet:", url, body.slice(0, 200));
+      throw new Error(`${url} fetch failed (${res.status})`);
+    }
+
+    const data = await res.json();
+    dbg("fetchJson parsed:", url, data);
+    return data;
   }
 
   // -------- Profile (name/title/bio) --------
@@ -25,19 +46,45 @@
     const titleEl = document.querySelector("[data-profile-title]");
     const bioEl = document.querySelector("[data-profile-bio]");
 
-    // Fail closed: if hooks don't exist, do nothing
-    if (!nameEl && !titleEl && !bioEl) return;
+    dbg("renderProfile hooks:", {
+      nameEl: !!nameEl,
+      titleEl: !!titleEl,
+      bioEl: !!bioEl,
+    });
 
-    if (nameEl && data.name) nameEl.textContent = data.name;
-    if (titleEl && data.title) titleEl.textContent = data.title;
-    if (bioEl && data.bio) bioEl.textContent = data.bio;
+    if (!nameEl && !titleEl && !bioEl) {
+      dbg("renderProfile: no hooks found; skipping");
+      return;
+    }
+
+    dbg("renderProfile data keys:", data ? Object.keys(data) : null);
+
+    if (nameEl && data && data.name) nameEl.textContent = data.name;
+    if (titleEl && data && data.title) titleEl.textContent = data.title;
+    if (bioEl && data && data.bio) bioEl.textContent = data.bio;
+
+    dbg("renderProfile applied:", {
+      name: nameEl ? nameEl.textContent : null,
+      title: titleEl ? titleEl.textContent : null,
+      bioLen: bioEl ? bioEl.textContent.length : null,
+    });
   }
 
   // -------- Experience --------
   function monthName(m) {
     const names = [
-      "jan", "feb", "mar", "apr", "may", "jun",
-      "jul", "aug", "sep", "oct", "nov", "dec",
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
     ];
     return names[m - 1] || "—";
   }
@@ -65,15 +112,29 @@
       document.querySelector("[data-positions]") ||
       document.querySelector(".view.view-job .positions");
 
-    if (!root) return;
+    dbg("renderExperience root found:", !!root);
+
+    if (!root) {
+      dbg("renderExperience: no root; skipping");
+      return;
+    }
 
     const items = data && Array.isArray(data.positions) ? data.positions : null;
+
+    dbg("renderExperience schema:", {
+      hasPositions: !!(data && data.positions),
+      positionsIsArray: Array.isArray(data && data.positions),
+      positionsLen: items ? items.length : null,
+      dataKeys: data ? Object.keys(data) : null,
+    });
+
     if (!items) throw new Error("experience.json missing 'positions' array");
 
     const sorted = items
       .slice()
       .sort((a, b) => sortableYM(b.start) - sortableYM(a.start));
 
+    // Only clear AFTER we know we have valid data
     root.innerHTML = "";
 
     if (sorted.length === 0) {
@@ -85,6 +146,7 @@
           <ul class="exp-bullets"></ul>
         </li>
       `.trim();
+      dbg("renderExperience: no entries rendered");
       return;
     }
 
@@ -108,16 +170,33 @@
 
       root.appendChild(li);
     }
+
+    dbg("renderExperience rendered count:", sorted.length);
   }
 
   // -------- Skills (sidebar) --------
   function renderSkills(data) {
-    // Your HTML uses: <div class="skills" data-skills>
     const root = document.querySelector("[data-skills]");
-    if (!root) return;
+    dbg("renderSkills root found:", !!root);
+
+    if (!root) {
+      dbg("renderSkills: no root; skipping");
+      return;
+    }
 
     const sections = data && Array.isArray(data.sections) ? data.sections : null;
-    if (!sections || sections.length === 0) return; // keep placeholder/fallback
+
+    dbg("renderSkills schema:", {
+      hasSections: !!(data && data.sections),
+      sectionsIsArray: Array.isArray(data && data.sections),
+      sectionsLen: sections ? sections.length : null,
+      dataKeys: data ? Object.keys(data) : null,
+    });
+
+    if (!sections || sections.length === 0) {
+      dbg("renderSkills: missing/empty sections; leaving placeholder intact");
+      return; // keep placeholder/fallback
+    }
 
     // Clear only when valid data is present
     root.innerHTML = "";
@@ -129,22 +208,44 @@
 
       const p = document.createElement("p");
       const details = Array.isArray(s.details) ? s.details : [];
-      // Match your restrained aesthetic: bullet-like separators, not a loud list
       p.textContent = details.join(" • ");
       root.appendChild(p);
     }
+
+    dbg("renderSkills rendered count:", sections.length);
   }
 
   // -------- Boot --------
   function run() {
+    dbg("boot: started", {
+      href: location.href,
+      protocol: location.protocol,
+      origin: location.origin,
+    });
+
+    // Helpful: confirm hooks exist up front
+    dbg("hooks present:", {
+      profileName: !!document.querySelector("[data-profile-name]"),
+      profileTitle: !!document.querySelector("[data-profile-title]"),
+      profileBio: !!document.querySelector("[data-profile-bio]"),
+      positions: !!document.querySelector("[data-positions]"),
+      skills: !!document.querySelector("[data-skills]"),
+    });
+
     fetchJson(URL_PROFILE)
-      .then(renderProfile)
-      .catch((err) => console.error("profile render failed:", err));
+      .then((data) => {
+        dbg("profile.json loaded ok");
+        renderProfile(data);
+      })
+      .catch((err) => console.error("[render] profile render failed:", err));
 
     fetchJson(URL_EXPERIENCE)
-      .then(renderExperience)
+      .then((data) => {
+        dbg("experience.json loaded ok");
+        renderExperience(data);
+      })
       .catch((err) => {
-        console.error("experience render failed:", err);
+        console.error("[render] experience render failed:", err);
         const root =
           document.querySelector("[data-positions]") ||
           document.querySelector(".view.view-job .positions");
@@ -161,8 +262,11 @@
       });
 
     fetchJson(URL_SKILLS)
-      .then(renderSkills)
-      .catch((err) => console.error("skills render failed:", err));
+      .then((data) => {
+        dbg("skills.json loaded ok");
+        renderSkills(data);
+      })
+      .catch((err) => console.error("[render] skills render failed:", err));
   }
 
   run();
