@@ -2,6 +2,7 @@
   const URL_PROFILE = "./data/profile.json";
   const URL_EXPERIENCE = "./data/experience.json";
   const URL_SKILLS = "./data/skills.json";
+  const URL_CERTS = "./data/certs.json";
 
   const DEBUG = true;
 
@@ -72,7 +73,11 @@
           ? data.biography
           : null;
 
-    dbg("renderProfile resolved fields:", { name, title, bioLen: bio ? bio.length : 0 });
+    dbg("renderProfile resolved fields:", {
+      name,
+      title,
+      bioLen: bio ? bio.length : 0,
+    });
 
     if (nameEl && name) nameEl.textContent = name;
     if (titleEl && title) titleEl.textContent = title;
@@ -88,8 +93,18 @@
   // -------- Experience --------
   function monthName(m) {
     const names = [
-      "jan", "feb", "mar", "apr", "may", "jun",
-      "jul", "aug", "sep", "oct", "nov", "dec",
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
     ];
     return names[m - 1] || "—";
   }
@@ -235,6 +250,49 @@
     dbg("renderSkills rendered count:", raw.length);
   }
 
+  function renderCerts(data) {
+    const root = document.querySelector("[data-certs]");
+    dbg("renderCerts root found:", !!root);
+    if (!root) return;
+
+    const certs = data && Array.isArray(data.certs) ? data.certs : null;
+
+    dbg("renderCerts schema:", {
+      hasCerts: !!(data && data.certs),
+      certsIsArray: Array.isArray(data && data.certs),
+      certsLen: certs ? certs.length : null,
+      dataKeys: data ? Object.keys(data) : null,
+    });
+
+    if (!certs || certs.length === 0) return;
+
+    root.innerHTML = "";
+
+    for (const c of certs) {
+      const a = document.createElement("a");
+      a.className = "cert";
+      a.href = c.url || "#";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.setAttribute("aria-label", c.title || c.short || "Certification");
+
+      if (c.icon) {
+        const img = document.createElement("img");
+        img.className = "cert-icon";
+        img.src = c.icon;
+        img.alt = c.short || c.title || "cert";
+        a.appendChild(img);
+      } else {
+        // text fallback if icon missing
+        a.textContent = c.short || c.title || "cert";
+      }
+
+      root.appendChild(a);
+    }
+
+    dbg("renderCerts rendered count:", certs.length);
+  }
+
   // -------- Boot --------
   function run() {
     dbg("boot: started", {
@@ -286,6 +344,13 @@
         renderSkills(data);
       })
       .catch((err) => console.error("[render] skills render failed:", err));
+
+    fetchJson(URL_CERTS)
+      .then((data) => {
+        dbg("certs.json loaded ok");
+        renderCerts(data);
+      })
+      .catch((err) => console.error("[render] certs render failed:", err));
   }
 
   run();
