@@ -1,10 +1,8 @@
 (() => {
-  // Keep URLs explicit
   const URL_PROFILE = "./data/profile.json";
   const URL_EXPERIENCE = "./data/experience.json";
   const URL_SKILLS = "./data/skills.json";
 
-  // Toggle this to silence logs once you're done debugging
   const DEBUG = true;
 
   function dbg(...args) {
@@ -26,7 +24,6 @@
     dbg("fetchJson response:", url, "status:", res.status, "ok:", res.ok);
 
     if (!res.ok) {
-      // Try to capture response text (helps when GitHub serves HTML for 404)
       let body = "";
       try {
         body = await res.text();
@@ -57,11 +54,29 @@
       return;
     }
 
-    dbg("renderProfile data keys:", data ? Object.keys(data) : null);
+    const name = data && typeof data.name === "string" ? data.name : null;
 
-    if (nameEl && data && data.name) nameEl.textContent = data.name;
-    if (titleEl && data && data.title) titleEl.textContent = data.title;
-    if (bioEl && data && data.bio) bioEl.textContent = data.bio;
+    // accept either "title" or your current "tagline"
+    const title =
+      data && typeof data.title === "string"
+        ? data.title
+        : data && typeof data.tagline === "string"
+          ? data.tagline
+          : null;
+
+    // accept either "bio" or your current "biography"
+    const bio =
+      data && typeof data.bio === "string"
+        ? data.bio
+        : data && typeof data.biography === "string"
+          ? data.biography
+          : null;
+
+    dbg("renderProfile resolved fields:", { name, title, bioLen: bio ? bio.length : 0 });
+
+    if (nameEl && name) nameEl.textContent = name;
+    if (titleEl && title) titleEl.textContent = title;
+    if (bioEl && bio) bioEl.textContent = bio;
 
     dbg("renderProfile applied:", {
       name: nameEl ? nameEl.textContent : null,
@@ -73,18 +88,8 @@
   // -------- Experience --------
   function monthName(m) {
     const names = [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "may",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
+      "jan", "feb", "mar", "apr", "may", "jun",
+      "jul", "aug", "sep", "oct", "nov", "dec",
     ];
     return names[m - 1] || "—";
   }
@@ -134,7 +139,6 @@
       .slice()
       .sort((a, b) => sortableYM(b.start) - sortableYM(a.start));
 
-    // Only clear AFTER we know we have valid data
     root.innerHTML = "";
 
     if (sorted.length === 0) {
@@ -175,58 +179,61 @@
   }
 
   // -------- Skills (sidebar) --------
-function renderSkills(data) {
-  const root = document.querySelector("[data-skills]");
-  dbg("renderSkills root found:", !!root);
-  if (!root) return;
+  function renderSkills(data) {
+    const root = document.querySelector("[data-skills]");
+    dbg("renderSkills root found:", !!root);
 
-  // Accept either:
-  // 1) { sections: [ {category, details: []} ] }
-  // 2) { skills:   [ {category, details: "" or []} ] }
-  const raw =
-    (data && Array.isArray(data.sections) && data.sections) ||
-    (data && Array.isArray(data.skills) && data.skills) ||
-    null;
-
-  dbg("renderSkills schema:", {
-    hasSections: !!(data && data.sections),
-    hasSkills: !!(data && data.skills),
-    chosenLen: raw ? raw.length : null,
-    dataKeys: data ? Object.keys(data) : null,
-  });
-
-  if (!raw || raw.length === 0) {
-    dbg("renderSkills: missing/empty data; leaving placeholder intact");
-    return;
-  }
-
-  // Clear only when valid data exists
-  root.innerHTML = "";
-
-  for (const s of raw) {
-    const category = s && s.category ? String(s.category) : "—";
-
-    // Normalize details to an array of strings
-    let details = [];
-    if (Array.isArray(s && s.details)) {
-      details = s.details.map((x) => String(x)).filter(Boolean);
-    } else if (typeof (s && s.details) === "string") {
-      details = [s.details];
-    } else if (s && s.details != null) {
-      details = [String(s.details)];
+    if (!root) {
+      dbg("renderSkills: no root; skipping");
+      return;
     }
 
-    const h = document.createElement("h6");
-    h.textContent = category;
-    root.appendChild(h);
+    // Accept either:
+    // 1) { sections: [ { category, details: [] } ] }
+    // 2) { skills:   [ { category, details: "" or [] } ] }
+    const raw =
+      (data && Array.isArray(data.sections) && data.sections) ||
+      (data && Array.isArray(data.skills) && data.skills) ||
+      null;
 
-    const p = document.createElement("p");
-    p.textContent = details.join(" • ");
-    root.appendChild(p);
+    dbg("renderSkills schema:", {
+      hasSections: !!(data && data.sections),
+      hasSkills: !!(data && data.skills),
+      chosenLen: raw ? raw.length : null,
+      dataKeys: data ? Object.keys(data) : null,
+    });
+
+    if (!raw || raw.length === 0) {
+      dbg("renderSkills: missing/empty data; leaving placeholder intact");
+      return;
+    }
+
+    root.innerHTML = "";
+
+    for (const s of raw) {
+      const category = s && s.category ? String(s.category) : "—";
+
+      // Normalize details to an array of strings
+      let details = [];
+      if (Array.isArray(s && s.details)) {
+        details = s.details.map((x) => String(x)).filter(Boolean);
+      } else if (typeof (s && s.details) === "string") {
+        details = [s.details];
+      } else if (s && s.details != null) {
+        details = [String(s.details)];
+      }
+
+      const h = document.createElement("h6");
+      h.textContent = category;
+      root.appendChild(h);
+
+      const p = document.createElement("p");
+      p.textContent = details.join(" • ");
+      root.appendChild(p);
+    }
+
+    dbg("renderSkills rendered count:", raw.length);
   }
-
-  dbg("renderSkills rendered count:", raw.length);
-}
 
   // -------- Boot --------
   function run() {
@@ -236,7 +243,6 @@ function renderSkills(data) {
       origin: location.origin,
     });
 
-    // Helpful: confirm hooks exist up front
     dbg("hooks present:", {
       profileName: !!document.querySelector("[data-profile-name]"),
       profileTitle: !!document.querySelector("[data-profile-title]"),
