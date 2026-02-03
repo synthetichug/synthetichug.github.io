@@ -8,7 +8,7 @@
       "issued": "2023-01-21",
       "expires": "2027-01-31",
       "url": "https://www.credly.com/earner/earned/badge/fd8994c6-a6f0-42e9-a314-201be7d73c96",
-      "icon": "./Images/certs/gcfa.png",
+      "icon": "./Images/gcfa.png",
       "short": "GCFA"
     },
     {
@@ -18,7 +18,7 @@
       "issued": "2023-07-18",
       "expires": "2027-07-31",
       "url": "https://www.credly.com/earner/earned/badge/8c9dbb0f-13eb-4f22-a989-6b7dc86812c0",
-      "icon": "./Images/certs/gcih.png",
+      "icon": "./Images/gcih.png",
       "short": "GCIH"
     },
     {
@@ -28,7 +28,7 @@
       "issued": "2023-01-21",
       "expires": "2027-07-31",
       "url": "https://www.credly.com/earner/earned/badge/69a966dd-7991-42b3-af12-23624f0e9222",
-      "icon": "./Images/certs/giac-advisory-board.png",
+      "icon": "./Images/giac-advisory.png",
       "short": "GIAC AB"
     },
 
@@ -39,7 +39,7 @@
       "issued": "2025-10-20",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/39514d7b-898d-46a5-8fdc-8021b3c0612d",
-      "icon": "./Images/certs/pentest-plus.png",
+      "icon": "./Images/pentest+.png",
       "short": "PenTest+"
     },
     {
@@ -49,7 +49,7 @@
       "issued": "2021-03-30",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/46c6028b-f1ba-4b7c-b0f8-9671f3654fe2",
-      "icon": "./Images/certs/security-plus.png",
+      "icon": "./Images/sec+.png",
       "short": "Security+"
     },
     {
@@ -59,7 +59,7 @@
       "issued": "2024-08-18",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/fe63dae0-1b39-48a3-84b5-acac5f7b2181",
-      "icon": "./Images/certs/network-plus.png",
+      "icon": "./Images/net+.png",
       "short": "Network+"
     },
     {
@@ -69,7 +69,7 @@
       "issued": "2024-08-18",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/3496e039-fa8e-4c79-9419-637a0d0e2cb1",
-      "icon": "./Images/certs/cios.png",
+      "icon": "./Images/cios.png",
       "short": "CIOS"
     },
     {
@@ -79,7 +79,7 @@
       "issued": "2024-08-18",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/62ebb604-12b5-4a45-b284-6ada473728d6",
-      "icon": "./Images/certs/csis.png",
+      "icon": "./Images/csis.png",
       "short": "CSIS"
     },
     {
@@ -89,7 +89,7 @@
       "issued": "2025-10-20",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/09f365c4-123d-4309-b85a-7b941a3c898e",
-      "icon": "./Images/certs/cnvp.png",
+      "icon": "./Images/cnvp.png",
       "short": "CNVP"
     },
     {
@@ -99,7 +99,7 @@
       "issued": "2025-09-29",
       "expires": null,
       "url": "https://www.credly.com/earner/earned/badge/eee026da-485a-48fb-899e-1e653675f08a",
-      "icon": "./Images/certs/project-plus.png",
+      "icon": "./Images/project+.png",
       "short": "Project+"
     },
     {
@@ -109,7 +109,7 @@
       "issued": "2024-07-02",
       "expires": "2028-10-20",
       "url": "https://www.credly.com/earner/earned/badge/58bd2c60-b33b-4b34-b055-9cf46379afae",
-      "icon": "./Images/certs/a-plus.png",
+      "icon": "./Images/a+.png",
       "short": "A+"
     },
     {
@@ -119,7 +119,7 @@
       "issued": "2021-01-13",
       "expires": null,
       "url": "https://www.credly.com/earner/earned/badge/a44a7298-2a06-4bfb-bf04-c9cb6b12491d",
-      "icon": "./Images/certs/itf-plus.png",
+      "icon": "./Images/itf+.png",
       "short": "ITF+"
     }
   ]
