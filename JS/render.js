@@ -1,8 +1,8 @@
 (() => {
   // Keep URLs explicit
-  const URL_PROFILE = "./data/profile.json";
-  const URL_EXPERIENCE = "./data/experience.json";
-  const URL_SKILLS = "./data/skills.json";
+  const URL_PROFILE = "../data/profile.json";
+  const URL_EXPERIENCE = "../data/experience.json";
+  const URL_SKILLS = "../data/skills.json";
 
   function escapeHtml(s) {
     return String(s)
