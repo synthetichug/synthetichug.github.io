@@ -5,7 +5,6 @@
   const URL_SKILLS = "./data/skills.json";
 
   function escapeHtml(s) {
-    // avoids replaceAll() compatibility issues
     return String(s)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -22,40 +21,23 @@
 
   // -------- Profile (name/title/bio) --------
   function renderProfile(data) {
-    // Targets inside your existing .view-job
-    const jobView = document.querySelector(".view.view-job");
-    if (!jobView) return;
+    const nameEl = document.querySelector("[data-profile-name]");
+    const titleEl = document.querySelector("[data-profile-title]");
+    const bioEl = document.querySelector("[data-profile-bio]");
 
-    const nameEl = jobView.querySelector("h2.morph"); // "dustin"
-    const titleEl = jobView.querySelector("span.title.current"); // "artificer"
-
-    // Bio paragraph: first <p> after "biography" heading
-    const bioH3 = Array.from(jobView.querySelectorAll("h3.morph")).find(
-      (h) => h.textContent.trim().toLowerCase() === "biography",
-    );
-    const bioEl = bioH3 ? bioH3.nextElementSibling : null;
+    // Fail closed: if hooks don't exist, do nothing
+    if (!nameEl && !titleEl && !bioEl) return;
 
     if (nameEl && data.name) nameEl.textContent = data.name;
     if (titleEl && data.title) titleEl.textContent = data.title;
-    if (bioEl && bioEl.tagName === "P" && data.bio)
-      bioEl.textContent = data.bio;
+    if (bioEl && data.bio) bioEl.textContent = data.bio;
   }
 
   // -------- Experience --------
   function monthName(m) {
     const names = [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
-      "may",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
+      "jan", "feb", "mar", "apr", "may", "jun",
+      "jul", "aug", "sep", "oct", "nov", "dec",
     ];
     return names[m - 1] || "—";
   }
@@ -92,7 +74,6 @@
       .slice()
       .sort((a, b) => sortableYM(b.start) - sortableYM(a.start));
 
-    // Only clear AFTER we know we have valid data
     root.innerHTML = "";
 
     if (sorted.length === 0) {
@@ -131,30 +112,31 @@
 
   // -------- Skills (sidebar) --------
   function renderSkills(data) {
-    const root = document.querySelector(".sideview.side-job ul.skills");
+    // Your HTML uses: <div class="skills" data-skills>
+    const root = document.querySelector("[data-skills]");
     if (!root) return;
 
-    const sections =
-      data && Array.isArray(data.sections) ? data.sections : null;
-    if (!sections || sections.length === 0) return; // keep existing static markup
+    const sections = data && Array.isArray(data.sections) ? data.sections : null;
+    if (!sections || sections.length === 0) return; // keep placeholder/fallback
 
-    // Only clear AFTER valid data exists
+    // Clear only when valid data is present
     root.innerHTML = "";
 
     for (const s of sections) {
-      const li = document.createElement("li");
+      const h = document.createElement("h6");
+      h.textContent = s.category || "—";
+      root.appendChild(h);
+
+      const p = document.createElement("p");
       const details = Array.isArray(s.details) ? s.details : [];
-      li.innerHTML = `
-        <h6>${escapeHtml(s.category || "—")}</h6>
-        <p>${escapeHtml(details.join("; "))}</p>
-      `.trim();
-      root.appendChild(li);
+      // Match your restrained aesthetic: bullet-like separators, not a loud list
+      p.textContent = details.join(" • ");
+      root.appendChild(p);
     }
   }
 
   // -------- Boot --------
-  async function run() {
-    // Load each independently; one failure doesn't nuke others.
+  function run() {
     fetchJson(URL_PROFILE)
       .then(renderProfile)
       .catch((err) => console.error("profile render failed:", err));
