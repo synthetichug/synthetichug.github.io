@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>vestiges</title>
     <link rel="stylesheet" href="./CSS/styles.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Abel"
+    />
 
     <script src="./JS/weather.js" defer></script>
     <script src="./JS/news.js" defer></script>
@@ -113,13 +116,24 @@
             <p class="bio" data-profile-bio>…</p>
 
             <h3 class="morph">experience</h3>
-
             <ol class="positions" data-positions>
               <li>
                 <span class="date">—</span>
                 <h5 class="pos-title">loading…</h5>
                 <div class="pos-meta">
                   <span class="pos-company"></span>
+                </div>
+                <ul class="exp-bullets"></ul>
+              </li>
+            </ol>
+
+            <h3 class="morph">education</h3>
+            <ol class="education" data-education>
+              <li>
+                <span class="date">—</span>
+                <h5 class="pos-title">loading…</h5>
+                <div class="pos-meta">
+                  <span class="pos-school"></span>
                 </div>
                 <ul class="exp-bullets"></ul>
               </li>
@@ -131,7 +145,7 @@
       <aside class="secondary">
         <div class="secondary_content">
           <section class="sideview side-home">
-            <h5 class="morph_alt">weather</h5>
+            <h5 class="morph_alt">Weather</h5>
 
             <ul class="skills">
               <li
@@ -193,13 +207,18 @@
           </section>
 
           <section class="sideview side-job">
-            <h5 class="morph_alt">Skill set</h5>
+            <h5 class="morph_alt">skills</h5>
 
             <!-- Explicit render target for skills -->
-            <div class="skills" data-skills>
-              <!-- Optional stable placeholder (keeps sidebar from looking empty) -->
-              <h6>loading…</h6>
-              <p>—</p>
+            <div class="skills" data-skillsbox>
+              <div class="skills-body" data-skills>
+                <h6>loading…</h6>
+                <p>—</p>
+              </div>
+
+              <div class="skills-certs" data-certs aria-label="Certifications">
+                <!-- placeholder; will be replaced -->
+              </div>
             </div>
           </section>
         </div>
