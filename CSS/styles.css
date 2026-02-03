@@ -451,9 +451,10 @@ body:has(#job:target) .side-job {
 
 /* icons: small + consistent */
 .secondary_content .skills-certs[data-certs] img.cert-icon {
-  height: 20px;
+  height: 26px;
   width: auto;
   display: block;
+  opacity: 0.9;
 }
 
 /* restrained hover */
