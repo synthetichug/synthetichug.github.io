@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-08-12",
+  "projects": [
+    {
+      "name": "PLACEHOLDER — Project One",
+      "repo": "https://github.com/synthetichug/PLACEHOLDER-repo-one",
+      "blurb": "PLACEHOLDER — replace with a one/two-line description of what this project does and why it exists.",
+      "stack": ["PLACEHOLDER-lang", "PLACEHOLDER-framework"]
+    },
+    {
+      "name": "PLACEHOLDER — Project Two",
+      "repo": "https://github.com/synthetichug/PLACEHOLDER-repo-two",
+      "blurb": "PLACEHOLDER — replace with a real description.",
+      "stack": ["PLACEHOLDER-lang"]
+    },
+    {
+      "name": "PLACEHOLDER — Project Three",
+      "repo": "https://github.com/synthetichug/PLACEHOLDER-repo-three",
+      "blurb": "PLACEHOLDER — replace with a real description.",
+      "stack": ["PLACEHOLDER-lang", "PLACEHOLDER-tool"]
+    }
+  ]
+}

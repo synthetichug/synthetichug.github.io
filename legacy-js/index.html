@@ -10,19 +10,30 @@
     <link rel="stylesheet" href="./CSS/nav.css" />
     <link rel="stylesheet" href="./CSS/primary.css" />
     <link rel="stylesheet" href="./CSS/secondary.css" />
-    <link rel="stylesheet" href="./CSS/satisfactory.css" />
 
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Abel"
     />
 
-    <!-- TypeScript site: compiled from src/ via `npx tsc` -> dist/ (see
-         src/MIGRATION.md). The plain-JS version is frozen in legacy-js/.
-         cves / threatfeed ship as their own standalone module scripts. -->
-    <script type="module" src="./dist/cves.js"></script>
-    <script type="module" src="./dist/threatfeed.js"></script>
-    <script type="module" src="./dist/app.js"></script>
+<script src="./JS/cves.js" defer></script>
+<script src="./JS/threatfeed.js" defer></script>
+
+<script src="./JS/utils/dom.js" defer></script>
+<script src="./JS/utils/escape.js" defer></script>
+<script src="./JS/utils/format.js" defer></script>
+<script src="./JS/utils/fetch.js" defer></script>
+
+<script src="./JS/render/profile.js" defer></script>
+<script src="./JS/render/experience.js" defer></script>
+<script src="./JS/render/education.js" defer></script>
+<script src="./JS/render/skills.js" defer></script>
+<script src="./JS/render/certs.js" defer></script>
+<script src="./JS/render/projects.js" defer></script>
+<script src="./JS/render/writeups.js" defer></script>
+
+<script src="./JS/nav.js" defer></script>
+<script src="./JS/app.js" defer></script>
   </head>
 
   <body data-view="home">
@@ -82,7 +93,6 @@
           <a class="cw-btn" href="#job"></a>
           <a class="cw-btn" href="#projects"></a>
           <a class="cw-btn" href="#writeups"></a>
-          <a class="cw-btn" href="#satisfactory"></a>
         </nav>
       </div>
 
@@ -172,15 +182,6 @@
                 <ul class="exp-bullets"></ul>
               </li>
             </ol>
-          </section>
-
-          <section class="view view-satisfactory">
-            <h2 class="morph">satisfactory</h2>
-            <span class="title current">build codex</span>
-
-            <div data-satisfactory>
-              <p class="sat-empty">loading recipes…</p>
-            </div>
           </section>
         </main>
       </div>

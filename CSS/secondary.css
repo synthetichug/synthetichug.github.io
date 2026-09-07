@@ -1,0 +1,169 @@
+/* ---------------- secondary ---------------- */
+
+.secondary {
+  grid-area: secondary;
+  background: #262b30;
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary_content {
+  padding-top: 144px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 40px;
+  color: #9eaebe;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.secondary_content h5 {
+  color: #32CD32;
+  font-size: 18px;
+  margin: 0 0 8px;
+  letter-spacing: 1px;
+}
+
+.secondary_content h6 {
+  color: #9eaebe;
+  font-size: 13px;
+  letter-spacing: 1px;
+  line-height: 23px;
+  margin: 0;
+}
+
+.secondary_content .skills h6 {
+  font-size: 13px;
+  line-height: 23px;
+}
+
+.secondary_content p {
+  color: #657381;
+  line-height: 15px;
+  margin: 0 0 15px;
+  letter-spacing: 0.5px;
+}
+
+.secondary_content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.secondary_content .client_list {
+  margin-top: 40px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  color: #9eaebe;
+}
+
+.secondary_content .client_names {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 18px;
+
+  color: #657381;
+  line-height: 14px;
+  margin-bottom: 10px;
+}
+
+.secondary_content .client_names li {
+  font-size: 11px;
+  letter-spacing: 0.6px;
+}
+
+.secondary_content .skills h6 {
+  font-size: 13px;
+  line-height: 23px;
+}
+
+/* ---------------- skills box + cert strip ---------------- */
+
+/* Skills container becomes a vertical column that can stretch */
+.secondary_content .skills[data-skillsbox] {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+
+  /* optional: keep your existing spacing */
+  padding-top: 4px;
+}
+
+/* Skills body stays at top */
+.secondary_content .skills-body[data-skills] {
+  flex: 0 0 auto;
+}
+
+/* Cert strip gets pushed to bottom */
+.secondary_content .skills-certs[data-certs] {
+  margin-top: auto;
+  padding-top: 12px;
+
+  display: grid;
+  /* Edge-to-edge strip that auto-scales based on available width */
+  grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+  gap: 8px;
+  align-items: end;
+
+  /* Make it go full width of the panel padding */
+  width: 100%;
+}
+
+/* Each cert link fills one grid cell */
+.secondary_content .skills-certs[data-certs] a.cert {
+  display: block;
+}
+
+/* Make the icon scale to the cell width */
+.secondary_content .skills-certs[data-certs] img.cert-icon {
+  width: 100%;
+  height: auto;
+  display: block;
+
+  /* If your badge images are square/circular, lock the cell shape */
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+/* restrained hover */
+.secondary_content .skills-certs[data-certs] a.cert:hover,
+.secondary_content .skills-certs[data-certs] a.cert:focus-visible {
+  opacity: 1;
+  outline: none;
+}
+
+/* ---------------- sidebar item (generic compact row, was weather-only) ---------------- */
+
+.sidebar-item {
+  margin-top: 10px;
+}
+
+.sidebar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.sidebar-lead {
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #657381;
+}
+
+/* base color/hover/focus come from the global `a` rule in base.css */
+.sidebar-sub {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.sidebar-meta {
+  margin-top: 2px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #4a545e;
+}
