@@ -86,17 +86,19 @@ body.is-dimmed::before {
     color 1000ms ease;
 }
 
+.cw-btn.is-active {
+  background: #3d464e;
+  color: #181b1f;
+}
+
+/* hover/focus after .is-active so it wins on the active tile (equal
+   specificity, later rule) — otherwise hovering the current tab stays grey. */
 .cw-btn:hover,
 .cw-btn:focus-visible {
   flex-grow: 3;
   background: #32CD32;
   color: #181b1f;
   outline: none;
-}
-
-.cw-btn.is-active {
-  background: #3d464e;
-  color: #181b1f;
 }
 
 .cw-btn:first-child {
