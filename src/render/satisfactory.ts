@@ -1,9 +1,10 @@
 import { escapeHtml as esc } from "../utils/escape.js";
 import type { SatisfactoryData, SatRecipe } from "../types.js";
 
-// Satisfactory build codex. Renders a filterable table of every building /
-// craftable part with named ingredients, plus a pin panel that sums pinned
-// recipes into direct-component and recursive raw-resource totals.
+// Satisfactory build codex. Filter controls live in the sidebar
+// ([data-satisfactory-controls]); the recipe table renders in the primary
+// column ([data-satisfactory]), same primary/sidebar split as the other tabs.
+// Pinned recipes ignore the filter and sort to the top.
 // Data: data/satisfactory.json (trimmed from github.com/greeny/SatisfactoryTools).
 
 interface Pin {
@@ -15,13 +16,14 @@ const LS_KEY = "vestiges-sat-pins";
 
 export function renderSatisfactory(data: SatisfactoryData | null | undefined): void {
   const mount = document.querySelector<HTMLElement>("[data-satisfactory]");
-  if (!mount || !data) return;
+  const side = document.querySelector<HTMLElement>("[data-satisfactory-controls]");
+  if (!mount || !side || !data) return;
 
   const { names, recipes, makeMap } = data;
   const nm = (c: string): string => names[c] || c;
   const byId: Record<string, SatRecipe> = Object.fromEntries(recipes.map((r) => [r.id, r]));
 
-  // ---- recursive raw-resource expansion -------------------------------------
+  // ---- recursive raw-resource expansion -----------------------------------
   function rawInto(acc: Record<string, number>, item: string, qty: number, seen: Set<string>, depth: number): void {
     const m = makeMap[item];
     if (!m || depth > 40 || seen.has(item)) {
@@ -38,7 +40,7 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     return acc;
   }
 
-  // ---- state --------------------------------------------------------------
+  // ---- state ------------------------------------------------------------
   let pins: Pin[] = load();
   function load(): Pin[] {
     try {
@@ -62,37 +64,40 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     return Number.isInteger(r) ? String(r) : r.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
   }
 
-  // ---- scaffold ---------------------------------------------------------------
-  mount.innerHTML = `
-    <div class="sat">
-      <div class="sat-controls">
-        <input class="sat-q" type="search"
-          placeholder="filter by name or ingredient…  e.g.  assembler  /  modular frame" />
+  // ---- scaffold: sidebar controls + primary table ------------------------
+  side.innerHTML = `
+    <div class="sat-side">
+      <input class="sat-q" type="search" placeholder="filter by name or ingredient…" />
+      <div class="sat-toggles">
         <label class="sat-toggle"><input type="checkbox" data-t="build" />Buildings only</label>
         <label class="sat-toggle sat-on"><input type="checkbox" data-t="alt" checked />Hide alternate recipes</label>
         <label class="sat-toggle"><input type="checkbox" data-t="pin" />Pinned only</label>
-        <span class="sat-count"></span>
       </div>
+      <span class="sat-count"></span>
 
       <div class="sat-pinwrap" hidden>
         <div class="sat-pinhead">
-          <h4>Pinned build list</h4><span class="sat-pc"></span><span class="sat-caret">▾</span>
+          <h6>Pinned build list</h6><span class="sat-pc"></span><span class="sat-caret">▾</span>
         </div>
         <div class="sat-pinbody">
           <div class="sat-pinlist"></div>
           <div class="sat-totblock">
-            <h5>Direct components (sum)</h5>
+            <h6>Direct components (sum)</h6>
             <ul class="sat-totlist" data-tot="direct"></ul>
             <button class="sat-copy" data-copy="direct">Copy list</button>
           </div>
           <div class="sat-totblock sat-raw">
-            <h5>Raw resources (recursive)</h5>
+            <h6>Raw resources (recursive)</h6>
             <ul class="sat-totlist" data-tot="raw"></ul>
             <button class="sat-copy" data-copy="raw">Copy list</button>
           </div>
         </div>
       </div>
+    </div>
+  `;
 
+  mount.innerHTML = `
+    <div class="sat">
       <div class="sat-tablewrap">
         <table class="sat-table">
           <thead><tr>
@@ -105,26 +110,27 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     </div>
   `;
 
-  const q = mount.querySelector<HTMLInputElement>(".sat-q")!;
+  const q = side.querySelector<HTMLInputElement>(".sat-q")!;
+  const tBuild = side.querySelector<HTMLInputElement>('input[data-t="build"]')!;
+  const tAlt = side.querySelector<HTMLInputElement>('input[data-t="alt"]')!;
+  const tPin = side.querySelector<HTMLInputElement>('input[data-t="pin"]')!;
+  const countEl = side.querySelector<HTMLElement>(".sat-count")!;
+  const pinwrap = side.querySelector<HTMLElement>(".sat-pinwrap")!;
+  const pinlist = side.querySelector<HTMLElement>(".sat-pinlist")!;
+  const pcEl = side.querySelector<HTMLElement>(".sat-pc")!;
+  const totDirect = side.querySelector<HTMLElement>('[data-tot="direct"]')!;
+  const totRaw = side.querySelector<HTMLElement>('[data-tot="raw"]')!;
   const tbody = mount.querySelector<HTMLTableSectionElement>(".sat-table tbody")!;
-  const countEl = mount.querySelector<HTMLElement>(".sat-count")!;
   const emptyEl = mount.querySelector<HTMLElement>(".sat-empty")!;
-  const pinwrap = mount.querySelector<HTMLElement>(".sat-pinwrap")!;
-  const pinlist = mount.querySelector<HTMLElement>(".sat-pinlist")!;
-  const pcEl = mount.querySelector<HTMLElement>(".sat-pc")!;
-  const totDirect = mount.querySelector<HTMLElement>('[data-tot="direct"]')!;
-  const totRaw = mount.querySelector<HTMLElement>('[data-tot="raw"]')!;
-  const tBuild = mount.querySelector<HTMLInputElement>('.sat-toggle input[data-t="build"]')!;
-  const tAlt = mount.querySelector<HTMLInputElement>('.sat-toggle input[data-t="alt"]')!;
-  const tPin = mount.querySelector<HTMLInputElement>('.sat-toggle input[data-t="pin"]')!;
 
   let copyText: Record<string, string> = { direct: "", raw: "" };
 
-  // ---- filtering / row render ----------------------------------------------
+  // ---- filtering / row render -----------------------------------------------
   function matches(r: SatRecipe, terms: string[]): boolean {
+    if (pinOf(r.id)) return true; // pinned recipes stay visible through any filter
+    if (tPin.checked) return false; // "pinned only", and this one isn't pinned
     if (tBuild.checked && !r.building) return false;
     if (tAlt.checked && r.alt) return false;
-    if (tPin.checked && !pinOf(r.id)) return false;
     if (!terms.length) return true;
     const hay = (r.name + " " + r.ing.map(([c]) => nm(c)).join(" ")).toLowerCase();
     return terms.every((t) => hay.includes(t));
@@ -142,17 +148,22 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     if (!r.ing.length) return '<div class="sat-reqs"><span class="sat-req">—</span></div>';
     return (
       '<div class="sat-reqs">' +
-      r.ing
-        .map(([c, a]) => `<span class="sat-req"><b>${fmt(a)}×</b> ${esc(nm(c))}</span>`)
-        .join("") +
+      r.ing.map(([c, a]) => `<span class="sat-req"><b>${fmt(a)}×</b> ${esc(nm(c))}</span>`).join("") +
       "</div>"
     );
   }
 
   function render(): void {
     const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
-    const list = recipes.filter((r) => matches(r, terms)).sort((a, b) => a.name.localeCompare(b.name));
-    countEl.textContent = list.length + " / " + recipes.length;
+    const list = recipes
+      .filter((r) => matches(r, terms))
+      .sort((a, b) => {
+        const pa = pinOf(a.id) ? 0 : 1;
+        const pb = pinOf(b.id) ? 0 : 1;
+        return pa - pb || a.name.localeCompare(b.name);
+      });
+    countEl.textContent =
+      list.length + " / " + recipes.length + (pins.length ? ` · ${pins.length} pinned` : "");
     emptyEl.hidden = list.length > 0;
 
     tbody.innerHTML = list
@@ -177,7 +188,7 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
       .join("");
   }
 
-  // ---- pin panel ---------------------------------------------------------
+  // ---- pin panel -------------------------------------------------------
   function aggregate(): { direct: Record<string, number>; raw: Record<string, number> } {
     const direct: Record<string, number> = {};
     const raw: Record<string, number> = {};
@@ -238,7 +249,7 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     }
   }
 
-  // ---- events -----------------------------------------------------------
+  // ---- events --------------------------------------------------------
   let debounce: number | undefined;
   q.addEventListener("input", () => {
     window.clearTimeout(debounce);
@@ -327,8 +338,8 @@ export function renderSatisfactory(data: SatisfactoryData | null | undefined): v
     }
   });
 
-  mount.querySelector(".sat-pinhead")!.addEventListener("click", () => pinwrap.classList.toggle("sat-collapsed"));
-  mount.querySelectorAll<HTMLButtonElement>(".sat-copy").forEach((b) => {
+  side.querySelector(".sat-pinhead")!.addEventListener("click", () => pinwrap.classList.toggle("sat-collapsed"));
+  side.querySelectorAll<HTMLButtonElement>(".sat-copy").forEach((b) => {
     b.addEventListener("click", () => {
       const key = b.dataset.copy as string;
       navigator.clipboard?.writeText(copyText[key] || "");

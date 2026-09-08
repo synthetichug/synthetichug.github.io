@@ -137,25 +137,9 @@ body.is-dimmed::before {
 body[data-view="home"] .view-home,
 body[data-view="job"] .view-job,
 body[data-view="projects"] .view-projects,
-body[data-view="writeups"] .view-writeups {
-  display: block;
-}
-
-/* Satisfactory codex renders full-bleed: the primary grid cell is only
-   ~2/5.5 of the viewport, too narrow for the recipe table. Break out and
-   cover from just under the centerwell (110px header + 177px centerwell) to
-   the bottom edge, with its own scroll. */
+body[data-view="writeups"] .view-writeups,
 body[data-view="satisfactory"] .view-satisfactory {
   display: block;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 287px;
-  bottom: 0;
-  z-index: 9;
-  overflow-y: auto;
-  background: #181b1f;
-  padding: 20px clamp(16px, 4vw, 48px) 40px;
 }
 
 body[data-view="home"] .side-home {
@@ -168,5 +152,8 @@ body[data-view="projects"] .side-projects {
   display: block;
 }
 body[data-view="writeups"] .side-writeups {
+  display: block;
+}
+body[data-view="satisfactory"] .side-satisfactory {
   display: block;
 }

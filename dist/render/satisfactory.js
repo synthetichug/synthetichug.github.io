@@ -2,12 +2,13 @@ import { escapeHtml as esc } from "../utils/escape.js";
 const LS_KEY = "vestiges-sat-pins";
 export function renderSatisfactory(data) {
     const mount = document.querySelector("[data-satisfactory]");
-    if (!mount || !data)
+    const side = document.querySelector("[data-satisfactory-controls]");
+    if (!mount || !side || !data)
         return;
     const { names, recipes, makeMap } = data;
     const nm = (c) => names[c] || c;
     const byId = Object.fromEntries(recipes.map((r) => [r.id, r]));
-    // ---- recursive raw-resource expansion -------------------------------------
+    // ---- recursive raw-resource expansion -----------------------------------
     function rawInto(acc, item, qty, seen, depth) {
         const m = makeMap[item];
         if (!m || depth > 40 || seen.has(item)) {
@@ -25,7 +26,7 @@ export function renderSatisfactory(data) {
             rawInto(acc, c, a * n, new Set(), 0);
         return acc;
     }
-    // ---- state --------------------------------------------------------------
+    // ---- state ------------------------------------------------------------
     let pins = load();
     function load() {
         try {
@@ -49,37 +50,39 @@ export function renderSatisfactory(data) {
         const r = Math.round(n * 1000) / 1000;
         return Number.isInteger(r) ? String(r) : r.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
     }
-    // ---- scaffold ---------------------------------------------------------------
-    mount.innerHTML = `
-    <div class="sat">
-      <div class="sat-controls">
-        <input class="sat-q" type="search"
-          placeholder="filter by name or ingredient…  e.g.  assembler  /  modular frame" />
+    // ---- scaffold: sidebar controls + primary table ------------------------
+    side.innerHTML = `
+    <div class="sat-side">
+      <input class="sat-q" type="search" placeholder="filter by name or ingredient…" />
+      <div class="sat-toggles">
         <label class="sat-toggle"><input type="checkbox" data-t="build" />Buildings only</label>
         <label class="sat-toggle sat-on"><input type="checkbox" data-t="alt" checked />Hide alternate recipes</label>
         <label class="sat-toggle"><input type="checkbox" data-t="pin" />Pinned only</label>
-        <span class="sat-count"></span>
       </div>
+      <span class="sat-count"></span>
 
       <div class="sat-pinwrap" hidden>
         <div class="sat-pinhead">
-          <h4>Pinned build list</h4><span class="sat-pc"></span><span class="sat-caret">▾</span>
+          <h6>Pinned build list</h6><span class="sat-pc"></span><span class="sat-caret">▾</span>
         </div>
         <div class="sat-pinbody">
           <div class="sat-pinlist"></div>
           <div class="sat-totblock">
-            <h5>Direct components (sum)</h5>
+            <h6>Direct components (sum)</h6>
             <ul class="sat-totlist" data-tot="direct"></ul>
             <button class="sat-copy" data-copy="direct">Copy list</button>
           </div>
           <div class="sat-totblock sat-raw">
-            <h5>Raw resources (recursive)</h5>
+            <h6>Raw resources (recursive)</h6>
             <ul class="sat-totlist" data-tot="raw"></ul>
             <button class="sat-copy" data-copy="raw">Copy list</button>
           </div>
         </div>
       </div>
-
+    </div>
+  `;
+    mount.innerHTML = `
+    <div class="sat">
       <div class="sat-tablewrap">
         <table class="sat-table">
           <thead><tr>
@@ -91,26 +94,28 @@ export function renderSatisfactory(data) {
       </div>
     </div>
   `;
-    const q = mount.querySelector(".sat-q");
+    const q = side.querySelector(".sat-q");
+    const tBuild = side.querySelector('input[data-t="build"]');
+    const tAlt = side.querySelector('input[data-t="alt"]');
+    const tPin = side.querySelector('input[data-t="pin"]');
+    const countEl = side.querySelector(".sat-count");
+    const pinwrap = side.querySelector(".sat-pinwrap");
+    const pinlist = side.querySelector(".sat-pinlist");
+    const pcEl = side.querySelector(".sat-pc");
+    const totDirect = side.querySelector('[data-tot="direct"]');
+    const totRaw = side.querySelector('[data-tot="raw"]');
     const tbody = mount.querySelector(".sat-table tbody");
-    const countEl = mount.querySelector(".sat-count");
     const emptyEl = mount.querySelector(".sat-empty");
-    const pinwrap = mount.querySelector(".sat-pinwrap");
-    const pinlist = mount.querySelector(".sat-pinlist");
-    const pcEl = mount.querySelector(".sat-pc");
-    const totDirect = mount.querySelector('[data-tot="direct"]');
-    const totRaw = mount.querySelector('[data-tot="raw"]');
-    const tBuild = mount.querySelector('.sat-toggle input[data-t="build"]');
-    const tAlt = mount.querySelector('.sat-toggle input[data-t="alt"]');
-    const tPin = mount.querySelector('.sat-toggle input[data-t="pin"]');
     let copyText = { direct: "", raw: "" };
-    // ---- filtering / row render ----------------------------------------------
+    // ---- filtering / row render -----------------------------------------------
     function matches(r, terms) {
+        if (pinOf(r.id))
+            return true; // pinned recipes stay visible through any filter
+        if (tPin.checked)
+            return false; // "pinned only", and this one isn't pinned
         if (tBuild.checked && !r.building)
             return false;
         if (tAlt.checked && r.alt)
-            return false;
-        if (tPin.checked && !pinOf(r.id))
             return false;
         if (!terms.length)
             return true;
@@ -126,15 +131,20 @@ export function renderSatisfactory(data) {
         if (!r.ing.length)
             return '<div class="sat-reqs"><span class="sat-req">—</span></div>';
         return ('<div class="sat-reqs">' +
-            r.ing
-                .map(([c, a]) => `<span class="sat-req"><b>${fmt(a)}×</b> ${esc(nm(c))}</span>`)
-                .join("") +
+            r.ing.map(([c, a]) => `<span class="sat-req"><b>${fmt(a)}×</b> ${esc(nm(c))}</span>`).join("") +
             "</div>");
     }
     function render() {
         const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
-        const list = recipes.filter((r) => matches(r, terms)).sort((a, b) => a.name.localeCompare(b.name));
-        countEl.textContent = list.length + " / " + recipes.length;
+        const list = recipes
+            .filter((r) => matches(r, terms))
+            .sort((a, b) => {
+            const pa = pinOf(a.id) ? 0 : 1;
+            const pb = pinOf(b.id) ? 0 : 1;
+            return pa - pb || a.name.localeCompare(b.name);
+        });
+        countEl.textContent =
+            list.length + " / " + recipes.length + (pins.length ? ` · ${pins.length} pinned` : "");
         emptyEl.hidden = list.length > 0;
         tbody.innerHTML = list
             .map((r) => {
@@ -155,7 +165,7 @@ export function renderSatisfactory(data) {
         })
             .join("");
     }
-    // ---- pin panel ---------------------------------------------------------
+    // ---- pin panel -------------------------------------------------------
     function aggregate() {
         const direct = {};
         const raw = {};
@@ -213,7 +223,7 @@ export function renderSatisfactory(data) {
             render();
         }
     }
-    // ---- events -----------------------------------------------------------
+    // ---- events --------------------------------------------------------
     let debounce;
     q.addEventListener("input", () => {
         window.clearTimeout(debounce);
@@ -306,8 +316,8 @@ export function renderSatisfactory(data) {
             setQty(t.closest(".sat-pinrow").dataset.id, t.value);
         }
     });
-    mount.querySelector(".sat-pinhead").addEventListener("click", () => pinwrap.classList.toggle("sat-collapsed"));
-    mount.querySelectorAll(".sat-copy").forEach((b) => {
+    side.querySelector(".sat-pinhead").addEventListener("click", () => pinwrap.classList.toggle("sat-collapsed"));
+    side.querySelectorAll(".sat-copy").forEach((b) => {
         b.addEventListener("click", () => {
             const key = b.dataset.copy;
             navigator.clipboard?.writeText(copyText[key] || "");
