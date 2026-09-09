@@ -12,7 +12,6 @@ import { renderSkills } from "./render/skills.js";
 import { renderCerts } from "./render/certs.js";
 import { renderProjects } from "./render/projects.js";
 import { renderWriteups } from "./render/writeups.js";
-import { renderSatisfactory } from "./render/satisfactory.js";
 function run() {
     initNav();
     fetchJson("./data/profile.json")
@@ -36,9 +35,6 @@ function run() {
     fetchJson("./data/writeups.json")
         .then(renderWriteups)
         .catch((e) => console.error("[app] writeups render failed:", e));
-    fetchJson("./data/satisfactory.json")
-        .then(renderSatisfactory)
-        .catch((e) => console.error("[app] satisfactory render failed:", e));
 }
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", run);

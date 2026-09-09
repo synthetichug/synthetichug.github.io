@@ -75,24 +75,3 @@ export interface Writeup {
 export interface WriteupsData {
   writeups: Writeup[];
 }
-
-// ---- Satisfactory build codex (data/satisfactory.json) ----
-// Trimmed from github.com/greeny/SatisfactoryTools data.json (game 1.0).
-// `names`   : item/building className -> display name
-// `recipes` : one entry per recipe; `ing` is [className, amountPerCraft] pairs
-// `makeMap` : item className -> [ [ingredientClassName, amountPerUnit], ... ]
-//             (standard recipe only; raw resources are absent = leaves)
-export interface SatRecipe {
-  id: string;
-  name: string;
-  product: string;
-  pAmt: number;
-  alt: boolean;
-  building: boolean;
-  ing: [string, number][];
-}
-export interface SatisfactoryData {
-  names: Record<string, string>;
-  recipes: SatRecipe[];
-  makeMap: Record<string, [string, number][]>;
-}

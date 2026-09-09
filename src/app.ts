@@ -13,7 +13,6 @@ import { renderSkills } from "./render/skills.js";
 import { renderCerts } from "./render/certs.js";
 import { renderProjects } from "./render/projects.js";
 import { renderWriteups } from "./render/writeups.js";
-import { renderSatisfactory } from "./render/satisfactory.js";
 import type {
   Profile,
   ExperienceData,
@@ -22,7 +21,6 @@ import type {
   CertsData,
   ProjectsData,
   WriteupsData,
-  SatisfactoryData,
 } from "./types.js";
 
 function run(): void {
@@ -55,10 +53,6 @@ function run(): void {
   fetchJson<WriteupsData>("./data/writeups.json")
     .then(renderWriteups)
     .catch((e) => console.error("[app] writeups render failed:", e));
-
-  fetchJson<SatisfactoryData>("./data/satisfactory.json")
-    .then(renderSatisfactory)
-    .catch((e) => console.error("[app] satisfactory render failed:", e));
 }
 
 if (document.readyState === "loading") {

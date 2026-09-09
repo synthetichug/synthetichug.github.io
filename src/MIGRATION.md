@@ -8,7 +8,7 @@ version is frozen under `../legacy-js/` for reference.
 
 - `types.ts` — interfaces for the `data/*.json` shapes
 - `utils/{dom,escape,fetch,format}.ts`
-- `render/{profile,experience,education,skills,certs,projects,writeups,satisfactory}.ts`
+- `render/{profile,experience,education,skills,certs,projects,writeups}.ts`
   — real ES modules (`import`/`export`), not IIFEs on a `window.Vestiges`
   registry. `app.ts` imports them directly.
 - `cves.ts`, `threatfeed.ts` — standalone self-executing widgets. Not
@@ -35,15 +35,6 @@ npx tsc                              # emits ../dist/*.js (ES modules, mirrors s
 1. `npx tsc`
 2. Commit `dist/` alongside your `src/` changes.
 3. Push — Pages serves the root `index.html` + `dist/` + `CSS/` + `data/`.
-
-## Satisfactory tab
-
-`render/satisfactory.ts` + `../CSS/satisfactory.css` (scoped under
-`.view-satisfactory`) + `../data/satisfactory.json` (recipe data trimmed from
-[SatisfactoryTools](https://github.com/greeny/SatisfactoryTools), game 1.0).
-`app.ts` fetches the JSON and calls `renderSatisfactory` into
-`<div data-satisfactory>`. The tab renders full-bleed (see the
-`body[data-view="satisfactory"]` rule in `CSS/nav.css`).
 
 ## Not done
 

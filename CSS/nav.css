@@ -137,8 +137,7 @@ body.is-dimmed::before {
 body[data-view="home"] .view-home,
 body[data-view="job"] .view-job,
 body[data-view="projects"] .view-projects,
-body[data-view="writeups"] .view-writeups,
-body[data-view="satisfactory"] .view-satisfactory {
+body[data-view="writeups"] .view-writeups {
   display: block;
 }
 
@@ -152,8 +151,5 @@ body[data-view="projects"] .side-projects {
   display: block;
 }
 body[data-view="writeups"] .side-writeups {
-  display: block;
-}
-body[data-view="satisfactory"] .side-satisfactory {
   display: block;
 }
